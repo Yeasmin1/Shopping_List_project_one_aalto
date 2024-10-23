@@ -4,15 +4,15 @@
 //createWorkEntry, findCurrentWorkEntry, and finishWorkEntry.
 import { sql } from "../database/database.js";
 
-const createWorkEntry = async (taskId) => {
+const createListEntry = async (listId) => {
   await sql`INSERT INTO
-    work_entries (task_id, started_on)
-    VALUES (${taskId}, NOW())`;
+    shopping_list_items ( shopping_list_id )
+    VALUES (${listId}, NOW())`;
 };
 
-const findCurrentWorkEntry = async (taskId) => {
-  const rows = await sql`SELECT * FROM work_entries
-    WHERE task_id = ${ taskId } AND finished_on IS NULL`;
+const findCurrentListEntry = async (listId) => {
+  const rows = await sql`SELECT * FROM shopping_list_items 
+    WHERE shopping_list_id  = ${ listId } AND collected = false`;
 
   if (rows && rows.length > 0) {
     return rows[0];
@@ -21,9 +21,9 @@ const findCurrentWorkEntry = async (taskId) => {
   return false;
 };
 
-const finishWorkEntry = async (id) => {
-  await sql`UPDATE work_entries
-    SET finished_on = NOW() WHERE id = ${ id }`;
+const finishListEntry = async (id) => {
+  await sql`UPDATE shopping_list_items
+    SET collected= NOW() WHERE id = ${ id }`;
 };
 
 const calculateTotalTime = async (taskId) => {
@@ -39,4 +39,4 @@ const calculateTotalTime = async (taskId) => {
     return 0;
   };
 
-export { createWorkEntry, findCurrentWorkEntry, finishWorkEntry, calculateTotalTime};
+export { createListEntry, findCurrentListEntry, finishListEntry, calculateTotalTime};

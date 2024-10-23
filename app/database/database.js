@@ -1,5 +1,4 @@
 import { postgres } from "../deps.js";
-import { config } from "https://deno.land/x/dotenv/mod.ts"; // Import dotenv
 
 
 let sql;

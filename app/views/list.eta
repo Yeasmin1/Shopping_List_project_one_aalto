@@ -1,11 +1,27 @@
-//List specific page
+//we create a list-specific page called list.eta. The page will contain the name of the list, the possibility to start a list item entry, 
+//and the functionality for showing a current list item entry if one exists as well as the 
+//functionality for finishing the specific list item entry.
+<% layout("./layouts/layout.eta") %>
+<h1><%= it.list.name %></h1>
 
-<h1><%= it.list.name%></h1>
-<% if (!it.)
+<% if (!it.currentListEntry) { %>
 
+<h2>Complete list</h2>
 
+<form action="/lists/<%= it.list.id %>" method="POST">
+  <input type="submit" value="Deactivate list!" />
+</form>
 
+<h2>.. or, Start a list entry</h2>
 
+<form action="/lists/<%= it.list.id %>/entries" method="POST">
+  <input type="submit" value="Start a list entry!" />
+</form>
 
+<% } else { %>
 
-%>
+<form method="POST" action="/lists/<%= it.list.id %>/entries/<%= it.currentListEntry.id %>">
+  <input type="submit" value="Finish list entry!" />
+</form>
+
+<% } %>

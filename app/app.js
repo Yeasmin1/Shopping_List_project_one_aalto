@@ -1,7 +1,7 @@
 import { serve } from "./deps.js";
 import { configure } from "./deps.js";
-import * as taskController from "./controllers/taskController.js";
-import * as workEntryController from "./controllers/workEntryController.js";
+import * as shoppingListController from "./controllers/shoppingListController.js";
+import * as listEntryController from "./controllers/listEntryController.js";
 import * as requestUtils from "./utils/requestUtils.js";
 
 // Configure the views
@@ -14,19 +14,19 @@ const handleRequest = async (request) => {
   const url = new URL(request.url);
 
   if (url.pathname === "/" && request.method === "GET") {
-    return requestUtils.redirectTo("/tasks");
-  } else if (url.pathname === "/tasks" && request.method === "POST") {
-    return await taskController.addTask(request);
-  } else if (url.pathname === "/tasks" && request.method === "GET") {
-    return await taskController.viewTasks(request);
-  } else if (url.pathname.match("tasks/[0-9]+") && request.method === "GET") {
-    return await taskController.viewTask(request);
-  } else if (url.pathname.match("tasks/[0-9]+/entries/[0-9]+") && request.method === "POST") {
-    return await workEntryController.finishWorkEntry(request);
-  } else if (url.pathname.match("tasks/[0-9]+/entries") && request.method === "POST") {
-    return await workEntryController.createWorkEntry(request);
-  } else if (url.pathname.match("tasks/[0-9]+") && request.method === "POST") {
-    return await taskController.completeTask(request);
+    return requestUtils.redirectTo("/lists");
+  } else if (url.pathname === "/lists" && request.method === "POST") {
+    return await shoppingListController.addList(request);
+  } else if (url.pathname === "/lists" && request.method === "GET") {
+    return await shoppingListController.viewLists(request);
+  } else if (url.pathname.match("lists/[0-9]+") && request.method === "GET") {
+    return await shoppingListController.viewList(request);
+  } else if (url.pathname.match("lists/[0-9]+/entries/[0-9]+") && request.method === "POST") {
+    return await listEntryController.finishListEntry(request);
+  } else if (url.pathname.match("lists/[0-9]+/entries") && request.method === "POST") {
+    return await listEntryController.createListEntry(request);
+  } else if (url.pathname.match("lists/[0-9]+") && request.method === "POST") {
+    return await shoppingListController.completeList(request);
   } else {
     return new Response("Not found", { status: 404 });
   }

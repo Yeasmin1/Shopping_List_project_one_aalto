@@ -1,19 +1,22 @@
-<h1>Lists</>
+//ach list  is a link to a list -specific page. This means adding a link for each list  to the page. This is done using the 
+//a element so that each link points to a path that has the database id of the specific list .
 
-<h2>Add a list</h2>
+<% layout("./layouts/layout.eta") %>
+<h1>Lists</h1>
 
-<form method="POST" action="/lists">
-    Name: <input type="text" name="name"/>
-    <input type="submit" value="Create list!"/>
+<h2>Add a List</h2>
+
+<form method="POST">
+  Name: <input type="text" name="name" />
+  <input type="submit" value="Create list!" />
 </form>
 
 <h2>Active lists</h2>
-<ul>
-    <% it.lists.forEach((list) => { %>
-        <li>
-            <a href="/lists/<%= list.id %>"><%= list.name %></a>
-        </li>
-        <% });
-    %>
 
+<ul>
+<% it.lists.forEach((list) => { %>
+  <li>
+    <a href="/lists/<%= list.id %>"><%= list.name %></a>
+  </li>
+<% }); %>
 </ul>
