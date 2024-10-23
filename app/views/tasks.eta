@@ -1,0 +1,22 @@
+//ach task is a link to a task-specific page. This means adding a link for each task to the page. This is done using the 
+//a element so that each link points to a path that has the database id of the specific task.
+
+<% layout("./layouts/layout.eta") %>
+<h1>Tasks</h1>
+
+<h2>Add a task</h2>
+
+<form method="POST">
+  Name: <input type="text" name="name" />
+  <input type="submit" value="Create task!" />
+</form>
+
+<h2>Active tasks</h2>
+
+<ul>
+<% it.tasks.forEach((task) => { %>
+  <li>
+    <a href="/tasks/<%= task.id %>"><%= task.name %></a>
+  </li>
+<% }); %>
+</ul>

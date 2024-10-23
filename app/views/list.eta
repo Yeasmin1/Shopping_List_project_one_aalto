@@ -1,0 +1,11 @@
+//List specific page
+
+<h1><%= it.list.name%></h1>
+<% if (!it.)
+
+
+
+
+
+
+%>
