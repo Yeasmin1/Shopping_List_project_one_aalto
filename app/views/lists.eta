@@ -2,12 +2,13 @@
 //a element so that each link points to a path that has the database id of the specific list .
 
 <% layout("./layouts/layout.eta") %>
+
 <h1>Lists</h1>
 
 <h2>Add a List</h2>
 
 <form method="POST">
-  Name: <input type="text" name="name" />
+  Name: <input type="text" name="name"  required/>
   <input type="submit" value="Create list!" />
 </form>
 
@@ -20,3 +21,6 @@
   </li>
 <% }); %>
 </ul>
+
+
+

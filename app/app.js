@@ -19,13 +19,16 @@ const handleRequest = async (request) => {
     return await shoppingListController.addList(request);
   } else if (url.pathname === "/lists" && request.method === "GET") {
     return await shoppingListController.viewLists(request);
-  } else if (url.pathname.match("lists/[0-9]+") && request.method === "GET") {
+  } else if (url.pathname.match ("lists/[0-9]+/items/[0-9]+/collect") && request.method === "POST") {
+  return await listEntryController.markCollectItem(request);
+  } else if (url.pathname.match("lists/[0-9]+" )&& request.method === "GET") {
     return await shoppingListController.viewList(request);
-  } else if (url.pathname.match("lists/[0-9]+/entries/[0-9]+") && request.method === "POST") {
-    return await listEntryController.finishListEntry(request);
-  } else if (url.pathname.match("lists/[0-9]+/entries") && request.method === "POST") {
+  } else if (url.pathname.match ("lists/[0-9]+/items") && request.method === "POST") {
     return await listEntryController.createListEntry(request);
-  } else if (url.pathname.match("lists/[0-9]+") && request.method === "POST") {
+  } else if (url.pathname.match ("lists/[0-9]+/items/[0-9]+") && request.method === "POST") {
+    return await listEntryController.finishListEntry(request);
+  
+  } else if (url.pathname.match ("lists/[0-9]+") && request.method === "POST") {
     return await shoppingListController.completeList(request);
   } else {
     return new Response("Not found", { status: 404 });

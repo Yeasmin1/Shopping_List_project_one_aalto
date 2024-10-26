@@ -21,16 +21,21 @@ const responseDetails = {
 const addList = async (request) => {
   const formData = await request.formData();
   const name = formData.get("name");
-
   await shoppingListService.create(name);
-
   return requestUtils.redirectTo("/lists");
 };
 
+const viewLists = async (request) => {
+  const data = {
+    lists: await shoppingListService.findAllActiveLists(),
+  };
+  return new Response(await renderFile("lists.eta", data), responseDetails);
+};
+
+//show details of an individual list
 const viewList = async (request) => {
   const url = new URL(request.url);
   const urlParts = url.pathname.split("/");
-
   const data = {
     list: await shoppingListService.findById(urlParts[2]),
     currentListEntry: await listEntryService.findCurrentListEntry(urlParts[2]),
@@ -39,20 +44,12 @@ const viewList = async (request) => {
   return new Response(await renderFile("list.eta", data), responseDetails);
 };
 
-const viewLists = async (request) => {
-  const data = {
-    lists: await shoppingListService.findAllActiveLists(),
-  };
-
-  return new Response(await renderFile("lists.eta", data), responseDetails);
-};
 const completeList= async (request) => {
     const url = new URL(request.url);
     const urlParts = url.pathname.split("/");
     await shoppingListService.completeById(urlParts[2]);
-  
     return await requestUtils.redirectTo("/lists");
   };
 
-export { addList, viewList, viewLists, completeList};
+export { addList, viewLists,viewList,completeList};
 

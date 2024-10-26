@@ -15,12 +15,8 @@
 
 import { sql } from "../database/database.js";
 
-const completeById = async (id) => {
-  await sql`UPDATE shopping_lists  SET active = false WHERE id = ${ id }`;
-};
-
 const create = async (name) => {
-  await sql`INSERT INTO shopping_lists  (name) VALUES (${ name })`;
+  await sql`INSERT INTO shopping_lists (name) VALUES (${ name })`;
 };
 
 const findAllActiveLists = async () => {
@@ -29,12 +25,29 @@ const findAllActiveLists = async () => {
 
 const findById = async (id) => {
   const rows = await sql`SELECT * FROM shopping_lists  WHERE id = ${ id }`;
-
+  console.log("find by id", rows)
   if (rows && rows.length > 0) {
     return rows[0];
   }
-
   return { id: 0, name: "Unknown" };
 };
 
-export { completeById, create, findAllActiveLists, findById };
+const completeById = async (id) => {
+  await sql`UPDATE shopping_lists  SET active = false WHERE id = ${ id }`;
+};
+
+
+
+
+
+/*
+// this is Service for retrieving items by list ID, ordered alphabetically and by collected status
+const getItemsByListId = async (listId) => {
+  const result = await sql(
+    "SELECT * FROM shopping_list_items WHERE shopping_list_id = $1 ORDER BY collected, name ASC;",
+    listId
+  );
+  return result.rows;
+};
+*/
+export {create, findAllActiveLists, findById, completeById};

@@ -4,39 +4,41 @@
 //createWorkEntry, findCurrentWorkEntry, and finishWorkEntry.
 import { sql } from "../database/database.js";
 
-const createListEntry = async (listId) => {
-  await sql`INSERT INTO
-    shopping_list_items ( shopping_list_id )
-    VALUES (${listId}, NOW())`;
-};
-
 const findCurrentListEntry = async (listId) => {
   const rows = await sql`SELECT * FROM shopping_list_items 
     WHERE shopping_list_id  = ${ listId } AND collected = false`;
-
   if (rows && rows.length > 0) {
-    return rows[0];
+    return rows;
   }
-
   return false;
 };
+
+const createListEntry = async (listId, name) => {
+  await sql`INSERT INTO
+    shopping_list_items (shopping_list_id,name) VALUES (${ listId},${name })`;
+};
+
+const markCollectItem = async (listId) => {
+  await sql`UPDATE shopping_list_items SET collected = true WHERE id= ${listId}`
+}
+
+
+const findAllActiveItems =async(name) =>{
+  return await sql`SELECT * name FROM shopping_list_items where collected=false`;
+}
+
+/*
+const getItemsByListId = async (listId) => {
+  const result = await executeQuery(
+    "SELECT * FROM shopping_list_items WHERE shopping_list_id"
+  )
+}
 
 const finishListEntry = async (id) => {
   await sql`UPDATE shopping_list_items
     SET collected= NOW() WHERE id = ${ id }`;
 };
 
-const calculateTotalTime = async (taskId) => {
-    const rows = await sql`SELECT SUM(finished_on - started_on) AS total_time
-        FROM work_entries
-        WHERE task_id = ${ taskId }
-          AND finished_on IS NOT NULL`;
-  
-    if (rows && rows[0] && rows[0].total_time) {
-      return rows[0].total_time;
-    }
-  
-    return 0;
-  };
+*/
 
-export { createListEntry, findCurrentListEntry, finishListEntry, calculateTotalTime};
+export {findCurrentListEntry,createListEntry,markCollectItem};

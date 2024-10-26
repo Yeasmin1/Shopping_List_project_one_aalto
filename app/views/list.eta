@@ -2,11 +2,10 @@
 //and the functionality for showing a current list item entry if one exists as well as the 
 //functionality for finishing the specific list item entry.
 <% layout("./layouts/layout.eta") %>
-<h1><%= it.list.name %></h1>
-
+<h1>Shopping List name:<%= it.list.name %></h1>
 <% if (!it.currentListEntry) { %>
 
-<h2>Complete list</h2>
+<h2>Want to deactivate the list?</h2>
 
 <form action="/lists/<%= it.list.id %>" method="POST">
   <input type="submit" value="Deactivate list!" />
@@ -14,14 +13,39 @@
 
 <h2>.. or, Start a list entry</h2>
 
-<form action="/lists/<%= it.list.id %>/entries" method="POST">
+<form action="/lists/<%= it.list.id %>/items" method="POST">
+  Item name: <input type ="text" name="itemName" required/>
   <input type="submit" value="Start a list entry!" />
 </form>
 
 <% } else { %>
-
-<form method="POST" action="/lists/<%= it.list.id %>/entries/<%= it.currentListEntry.id %>">
+  
+  <h2>Active list items of <%= it.list.name %></h2>
+  <ul>
+  <% it.currentListEntry.forEach((list) => { %>
+    <li>
+     <%= list.name %>
+    </li>
+    <form action="/lists/<%= list.shopping_list_id %>/items/<%= list.id %>/collect" method="POST">
+      <input type="submit" value="Mark collected" />
+    </form>
+  <% }); %>
+  
+  </ul>
+  <h2>Want to add another item?</h2>
+<form action="/lists/<%= it.list.id %>/items" method="POST">
+  Item name: <input type ="text" name="itemName" required/>
+  <input type="submit" value="Add item" />
+</form>
+<h2>Want to finish the list entry creation for <%= it.list.name %>?</h2>
+<form method="POST" action="/lists/<%= it.list.id %>/items/<%= it.currentListEntry.id %>">
   <input type="submit" value="Finish list entry!" />
 </form>
+<h2>Want to deactivate the list?</h2>
+  <form action="/lists/<%= it.list.id %>" method="POST">
+    <input type="submit" value="Deactivate list!" />
+  </form>
+
+
 
 <% } %>
