@@ -40,6 +40,7 @@ const viewList = async (request) => {
     list: await shoppingListService.findById(urlParts[2]),
     currentListEntry: await listEntryService.findCurrentListEntry(urlParts[2]),
   };
+  console.log("checking entry",data.currentListEntry)
 
   return new Response(await renderFile("list.eta", data), responseDetails);
 };

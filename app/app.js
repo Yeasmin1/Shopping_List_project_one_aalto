@@ -36,7 +36,7 @@ const handleRequest = async (request) => {
 };
 
 // Get the port from environment variables or default to 7777
-const port = Deno.env.get("PORT") || 7777;
+const port = Deno.env.get("PORT") || 8000;
 
 // Start the server, bind to 0.0.0.0 with the dynamic port
 serve(handleRequest, { hostname: "0.0.0.0", port: Number(port) });

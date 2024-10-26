@@ -20,17 +20,25 @@
 
 <% } else { %>
   
-  <h2>Active list items of <%= it.list.name %></h2>
+  <h2>All list items of <%= it.list.name %></h2>
   <ul>
   <% it.currentListEntry.forEach((list) => { %>
-    <li>
-     <%= list.name %>
-    </li>
-    <form action="/lists/<%= list.shopping_list_id %>/items/<%= list.id %>/collect" method="POST">
+   <% if (!list.collected) { %>
+        <li>
+          <%= list.name %>
+           <form action="/lists/<%= list.shopping_list_id %>/items/<%= list.id %>/collect" method="POST">
       <input type="submit" value="Mark collected" />
+
     </form>
+          </li>
+      <% } else { %>
+         <li>
+           <del><%= list.name %></del>
+         </li>
+      <% } %>
+   
   <% }); %>
-  
+
   </ul>
   <h2>Want to add another item?</h2>
 <form action="/lists/<%= it.list.id %>/items" method="POST">
