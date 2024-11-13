@@ -33,23 +33,7 @@ Before running this project locally, ensure you have the following installed:
 - [Docker](https://www.docker.com/get-started) (for containerization)
 - [docker-compose](https://docs.docker.com/compose/) (for orchestration)
 
-### Database Schema
 
-The database schema includes two tables:
-
-```sql
-CREATE TABLE shopping_lists (
-  id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL,
-  active BOOLEAN DEFAULT TRUE
-);
-
-CREATE TABLE shopping_list_items (
-  id SERIAL PRIMARY KEY,
-  shopping_list_id INTEGER REFERENCES shopping_lists(id),
-  name TEXT NOT NULL,
-  collected BOOLEAN DEFAULT FALSE
-);
 
 ## Usage
 Main Page
@@ -84,3 +68,21 @@ Test Features
     Add and list items in a shopping list
     Mark items as collected
     Deactivate shopping lists
+    
+### Database Schema
+
+The database schema includes two tables:
+
+```sql
+CREATE TABLE shopping_lists (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE shopping_list_items (
+  id SERIAL PRIMARY KEY,
+  shopping_list_id INTEGER REFERENCES shopping_lists(id),
+  name TEXT NOT NULL,
+  collected BOOLEAN DEFAULT FALSE
+);
