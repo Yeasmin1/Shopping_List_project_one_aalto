@@ -32,8 +32,7 @@ Before running this project locally, ensure you have the following installed:
 
 ### Database Schema
 
-The database schema includes two tables:
-
+```sql
 CREATE TABLE shopping_lists (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -47,8 +46,15 @@ CREATE TABLE shopping_list_items (
   collected BOOLEAN DEFAULT FALSE
 );
 
+The database schema includes two tables:
+
+    shopping_lists: Contains the lists themselves.
+    shopping_list_items: Contains the items within each shopping list.
+```
+
 ## Usage
-Main Page
+
+### Main Page
 
 When you visit the main page at http://localhost:7777, the page displays statistics about the shopping lists, including the number of active and inactive lists and items. Additionally, if it's your first time visiting the application, you will see a welcome message. Returning users will see a different message, welcome again. This adds a layer of personalization, making the app feel more interactive and engaging.
 
@@ -74,9 +80,10 @@ The project includes automated end-to-end tests to verify its functionality. To 
 
 npx playwright test
 
-Test Features
+### Test Features
 
-    Create and list shopping lists
+    Create and list shopping list
+    Show a single shopping list.
     Add and list items in a shopping list
     Mark items as collected
     Deactivate shopping lists
@@ -84,7 +91,7 @@ Test Features
 ## Deployment
 This project has been deployed to Fly.io. You can access the live application at the following URL:
 
-    Deployed https://shopping-list-app-farida.fly.dev/
+   https://shopping-list-app-farida.fly.dev/
 
 ## Contact
 
