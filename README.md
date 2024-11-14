@@ -23,7 +23,6 @@ The **Shared Shopping Lists** application allows users to create, manage, and tr
 - Display personalized messages to first-time and returning users based on cookies
 
 The application uses **Deno** as the backend runtime and **ETA** as the templating engine, **PostgreSQL** for the database, and is containerized using **Docker**.
-
 ## Requirements
 
 Before running this project locally, ensure you have the following installed:
@@ -48,6 +47,9 @@ CREATE TABLE shopping_list_items (
   name TEXT NOT NULL,
   collected BOOLEAN DEFAULT FALSE
 );
+
+
+
 
 
 ## Usage
@@ -93,3 +95,4 @@ This project has been deployed to Fly.io. You can access the live application at
 
     Farida Yeasmin
     Email: sohanamou25@yahoo.com
+
