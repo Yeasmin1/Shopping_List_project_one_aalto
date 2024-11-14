@@ -34,7 +34,6 @@ Before running this project locally, ensure you have the following installed:
 
 The database schema includes two tables:
 
-```sql
 CREATE TABLE shopping_lists (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -47,10 +46,6 @@ CREATE TABLE shopping_list_items (
   name TEXT NOT NULL,
   collected BOOLEAN DEFAULT FALSE
 );
-
-
-
-
 
 ## Usage
 Main Page
