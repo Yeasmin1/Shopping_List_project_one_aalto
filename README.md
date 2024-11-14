@@ -6,7 +6,6 @@ A simple web application for managing shared shopping lists. The app follows a t
 
 - [Overview](#overview)
 - [Requirements](#requirements)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Testing](#testing)
 - [Deployment](#deployment)
@@ -49,6 +48,7 @@ CREATE TABLE shopping_list_items (
   name TEXT NOT NULL,
   collected BOOLEAN DEFAULT FALSE
 );
+
 
 ## Usage
 Main Page
