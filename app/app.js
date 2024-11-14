@@ -4,12 +4,10 @@ import * as shoppingListController from "./controllers/shoppingListController.js
 import * as listEntryController from "./controllers/listEntryController.js";
 import * as requestUtils from "./utils/requestUtils.js";
 
-// Configure the views
 configure({
   views: `${Deno.cwd()}/views/`,
 });
 
-// Main request handler
 const handleRequest = async (request) => {
   const url = new URL(request.url);
 
@@ -25,9 +23,6 @@ const handleRequest = async (request) => {
     return await shoppingListController.viewList(request);
   } else if (url.pathname.match ("lists/[0-9]+/items") && request.method === "POST") {
     return await listEntryController.createListEntry(request);
-  } else if (url.pathname.match ("lists/[0-9]+/items/[0-9]+") && request.method === "POST") {
-    return await listEntryController.finishListEntry(request);
-  
   } else if (url.pathname.match ("lists/[0-9]+") && request.method === "POST") {
     return await shoppingListController.completeList(request);
   } else {
@@ -35,8 +30,5 @@ const handleRequest = async (request) => {
   }
 };
 
-// Get the port from environment variables or default to 7777
-const port = Deno.env.get("PORT") || 8000;
-
-// Start the server, bind to 0.0.0.0 with the dynamic port
+const port = Deno.env.get("PORT") || 7777;
 serve(handleRequest, { hostname: "0.0.0.0", port: Number(port) });

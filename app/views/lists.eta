@@ -1,23 +1,25 @@
-//ach list  is a link to a list -specific page. This means adding a link for each list  to the page. This is done using the 
-//a element so that each link points to a path that has the database id of the specific list .
+//Shpping Lists creation page
 
 <% layout("./layouts/layout.eta") %>
-
-<h1>Lists</h1>
-
+<h1>Cookie message: <%= it.notice %></h1>
+<h1>Lists Statistics</h1>
+<h3 >
+  shopping lists:<%= it.totalLists%><br>
+  Shopping list items:<%= it.totalListItems%>
+</h3>
 <h2>Add a List</h2>
-
 <form method="POST">
   Name: <input type="text" name="name"  required/>
   <input type="submit" value="Create list!" />
 </form>
-
 <h2>Active lists</h2>
-
 <ul>
 <% it.lists.forEach((list) => { %>
   <li>
     <a href="/lists/<%= list.id %>"><%= list.name %></a>
+    <form action="/lists/<%=list.id %>" method="POST">
+    <input type="submit" value="Deactivate list!" />
+  </form>
   </li>
 <% }); %>
 </ul>

@@ -1,22 +1,17 @@
-// Two controller functions are needed for the current functionality. The first one is responsible for showing the page with current tasks, and the other
-// is responsible for adding a task. Let's call these functions viewTasks and addTask.
-
-
-// added view task function : Now, we can implement the functionality needed 
-//for showing a specific task. We call the function viewTask. The function will 
-//extract the id of the specific task from the url, and use that id to retrieve a 
-//task using the findById function from taskService.js. In addition, viewTask will 
-//also use the findCurrentWorkEntry function from workEntryService.js for retrieving 
-//the current work entry.
-
 import { renderFile } from "https://deno.land/x/eta@v2.2.0/mod.ts";
+import { deleteCookie, setCookie, getCookies } from "https://deno.land/std/http/cookie.ts";
 import * as shoppingListService from "../services/shoppingListService.js";
 import * as listEntryService from "../services/listEntryService.js";
 import * as requestUtils from "../utils/requestUtils.js";
-
+/*
 const responseDetails = {
-  headers: { "Content-Type": "text/html;charset=UTF-8" },
+ headers: { "Content-Type": "text/html;charset=UTF-8",}
 };
+*/
+
+//
+const headers = new Headers();
+headers.append("Content-Type","text/html;charset=UTF-8");
 
 const addList = async (request) => {
   const formData = await request.formData();
@@ -25,11 +20,35 @@ const addList = async (request) => {
   return requestUtils.redirectTo("/lists");
 };
 
+/*
 const viewLists = async (request) => {
   const data = {
     lists: await shoppingListService.findAllActiveLists(),
   };
   return new Response(await renderFile("lists.eta", data), responseDetails);
+};
+*/
+
+const viewLists = async (request) => {
+  const myCookies = getCookies(request.headers);
+  if (myCookies.test == "value1" ) {
+    const data = {
+      lists: await shoppingListService.findAllActiveLists(),
+      notice: "Welcome again",
+      totalLists: await shoppingListService.allLists(),
+      totalListItems:await listEntryService.allListItems(),
+    };
+    return new Response(await renderFile("lists.eta", data), {headers});
+  }else{
+    const data = {
+      lists: await shoppingListService.findAllActiveLists(),
+      notice: "Welcome first time",
+      totalLists: await shoppingListService.allLists(),
+      totalListItems:await listEntryService.allListItems(),
+    };
+    setCookie(headers, {name: "test", value : "value1"});
+    return new Response(await renderFile("lists.eta", data), {headers});
+  }
 };
 
 //show details of an individual list
@@ -40,9 +59,7 @@ const viewList = async (request) => {
     list: await shoppingListService.findById(urlParts[2]),
     currentListEntry: await listEntryService.findCurrentListEntry(urlParts[2]),
   };
-  console.log("checking entry",data.currentListEntry)
-
-  return new Response(await renderFile("list.eta", data), responseDetails);
+  return new Response(await renderFile("list.eta", data), {headers});
 };
 
 const completeList= async (request) => {

@@ -1,15 +1,19 @@
-//For the work entries, we need three functions. One function is used for creating a 
-//work entry for a given task, one function is used for finding a currently active (non-completed) 
-//work entry, and one function is used for completing a given work entry. Let's call these functions 
-//createWorkEntry, findCurrentWorkEntry, and finishWorkEntry.
 import { sql } from "../database/database.js";
+
+const allListItems = async () => {
+  const rows= await sql `SELECT COUNT(*) FROM shopping_list_items `;
+  if (rows && rows.length > 0){
+    const count = parseInt(rows[0].count, 10); 
+    return count > 0 ? count : "No shopping list items yet."; 
+  }
+  return "No shopping list items  yet.";
+}
 
 const findCurrentListEntry = async (listId) => {
   const rows = await sql`SELECT * FROM shopping_list_items 
     WHERE shopping_list_id  = ${ listId }
     ORDER BY collected ASC, name ASC`;
   if (rows && rows.length > 0) {
-
     return rows;
   }
   return false;
@@ -24,23 +28,4 @@ const markCollectItem = async (listId) => {
   await sql`UPDATE shopping_list_items SET collected = true WHERE id= ${listId}`
 }
 
-
-const findAllActiveItems =async(name) =>{
-  return await sql`SELECT * name FROM shopping_list_items where collected=false`;
-}
-
-/*
-const getItemsByListId = async (listId) => {
-  const result = await executeQuery(
-    "SELECT * FROM shopping_list_items WHERE shopping_list_id"
-  )
-}
-
-const finishListEntry = async (id) => {
-  await sql`UPDATE shopping_list_items
-    SET collected= NOW() WHERE id = ${ id }`;
-};
-
-*/
-
-export {findCurrentListEntry,createListEntry,markCollectItem};
+export {findCurrentListEntry,createListEntry,markCollectItem, allListItems};
